@@ -4,5 +4,13 @@
     "esbuild": "^0.14.49",
     "replace-in-file": "^6.3.5",
     "warp-contracts": "^1.1.10"
-  }
+  },
+  "name": "sw-multisig",
+  "version": "1.0.0",
+  "description": "Multisig for SmartWeave using FCP",
+  "main": "index.js",
+  "repository": "https://github.com/angrymouse/sw-multisig.git",
+  "author": "Nik <nik@hns.is>",
+  "license": "MIT",
+  "private": false
 }
