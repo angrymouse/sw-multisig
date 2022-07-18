@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "arweave": "^1.11.4",
+    "esbuild": "^0.14.49",
+    "replace-in-file": "^6.3.5",
+    "warp-contracts": "^1.1.10"
+  }
+}
