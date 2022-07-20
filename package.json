@@ -7,7 +7,10 @@
     "warp-contracts": "^1.1.10"
   },
   "name": "sw-multisig",
-  "version": "1.0.0",
+  "bin": {
+    "sw-multisig": "./cli.js"
+  },
+  "version": "0.0.2",
   "description": "Multisig for SmartWeave using FCP",
   "main": "index.js",
   "repository": "https://github.com/angrymouse/sw-multisig.git",
