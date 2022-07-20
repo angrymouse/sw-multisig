@@ -1,7 +1,7 @@
 export async function handle(state, action) {
     let {input, caller}=action
 
-    if(!input||typeof input!==object||!input.function||typeof input.function!=="string"){
+    if(!input||typeof input!=="object"||!input.function||typeof input.function!=="string"){
         throw new ContractError("No function")
     }
 

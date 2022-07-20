@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const readline = require('node:readline');
 const util=require("node:util")
 const { stdin: input, stdout: output } = require('node:process');
