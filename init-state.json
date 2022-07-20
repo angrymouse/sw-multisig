@@ -7,5 +7,7 @@
         "5V_c-XrpMnP7nqpY3XWMjIq-NTYH60_vZQ9N8JwXj1w":1
     },
     "proposals":{},
-    "foreignCalls":[]
+    "foreignCalls":[],
+    "canEvolve": true,
+    "evolve": null
 }

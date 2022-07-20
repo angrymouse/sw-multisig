@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "arweave": "^1.11.4",
+    "chalk": "^5.0.1",
     "esbuild": "^0.14.49",
     "replace-in-file": "^6.3.5",
     "warp-contracts": "^1.1.10"
