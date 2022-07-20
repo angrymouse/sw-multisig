@@ -54,10 +54,14 @@ module.exports = async function (jwk, contract, contractState, contractId, arwea
                 return null
             }else{
                 return {
-                    function:"change-member-power",
-                    member:memberAddress,
-                    power:newPower
+                    function: "propose",
+                    type: "change-member-power",
+                    data: {
+                        member:memberAddress,
+                        power:newPower
+                    }
                 }
+             
             }
 
 
@@ -72,9 +76,13 @@ module.exports = async function (jwk, contract, contractState, contractId, arwea
                 return null
             }else{
                 return {
-                    function:"set-threshold",
-                    threshold:newThreshold
+                    function: "propose",
+                    type: "set-threshold",
+                    data: {
+                        threshold:newThreshold
+                    }
                 }
+               
             }
         }
     })[propType])(jwk, contract, contractState, contractId, arweave, warp)
