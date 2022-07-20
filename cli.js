@@ -3,7 +3,7 @@ const util=require("node:util")
 const { stdin: input, stdout: output } = require('node:process');
 const { readFileSync } = require('node:fs');
 const path = require('node:path');
-
+const Arweave = require("arweave");
 
 global.prompt=function (question){
    
@@ -14,13 +14,31 @@ global.prompt=function (question){
     })
     
 };
+global.multilineJsonPrompt=async function multilineJsonPrompt(){
+    let accumulated=""
+    async function inheritedRecursive(){
+        let lineContent=await prompt("")
+        if(lineContent.toLowerCase()!=="end"){
+            accumulated+=lineContent
+            return await inheritedRecursive()
+        }else{
+            return accumulated
+        }
+    }
+    return JSON.parse(await inheritedRecursive())
+};
 (async ()=>{
     global.chalk=(await import("chalk")).default;
-   
+    const arweave = Arweave.init({
+        host: "arweave.net",
+        port: 443,
+        protocol: "https",
+      });
     console.log(chalk.bgGreen.black(" Welcome to SmartWeave FCP Multisig manager! "))
     console.log("")
     console.log(chalk.bgGreen.black(" Please provide your JWK key "))
     let jwk=JSON.parse(readFileSync(path.normalize(await prompt("Enter path to JWK:")),"utf8"))
+    console.log(`Logged in as ${chalk.yellow(await arweave.wallets.getAddress(jwk))}`)
     // Here I could steal your key. ALWAYS CHECK THE CODE OF PROJECTS WHERE YOU ENTER PRIVATE KEYS!!! :)
     menu(jwk)
 })();

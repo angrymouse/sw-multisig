@@ -59,7 +59,7 @@ module.exports = async function (jwk) {
         console.log(chalk.green("Built contract!"))
       console.log(chalk.blue("Deploying contract..."))
       const arweave = Arweave.init({
-        host: "arweave.dev",
+        host: "arweave.net",
         port: 443,
         protocol: "https",
       });
