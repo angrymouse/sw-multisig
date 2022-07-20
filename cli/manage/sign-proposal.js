@@ -5,6 +5,7 @@ module.exports = async function (jwk, contract, contractState, contractId, arwea
     return console.log(chalk.bgRed("Proposal with this ID not exists on weave!"))
    }
    let proposal=contractState.proposals[proposalId]
+   let totalPowers = Object.values(contractState.powers).reduce((pv, cv) => pv + cv, 0)
    console.log(chalk.blue("Proposal summary:"))
    console.log(await (({
     "call-contract":async()=>`This proposal will call contract ${chalk.blue(proposal.data.contract)} from behalf of multisig via Foreign Call Protocol.\nThis smart contract will be called with input below:`,
@@ -14,7 +15,7 @@ module.exports = async function (jwk, contract, contractState, contractId, arwea
    if(proposal.type=="call-contract"){
     console.log(proposal.data.input)
    }
-   console.log(`Currently this proposal has ${chalk.red(proposal.signers.length)} signs with total power of ${chalk.red(proposal.total)} (${chalk.blue(((proposal.total/contractState.threshold)*100).toFixed(2)+"%")} of all multisig voting power). This proposal will pass after ${contractState.threshold-proposal.total} of voting power will be added. After your vote this proposal will ${proposal.total+contractState.powers[arAddress]>=contractState.threshold?"":"not"} pass.`)
+   console.log(`Currently this proposal has ${chalk.red(proposal.signers.length)} signs with total power of ${chalk.red(proposal.total)} (${chalk.blue(((proposal.total/totalPowers)*100).toFixed(2)+"%")} of all multisig voting power). This proposal will pass after ${contractState.threshold-proposal.total} of voting power will be added. After your vote this proposal will${proposal.total+contractState.powers[arAddress]>=contractState.threshold?"":"not"} pass.`)
    console.log(chalk.bgRed(" List of signers: "))
    console.log(proposal.signers.map((m)=>chalk.red(m)).join("\n"))
 let confirm = await prompt("Do you really want to sign this proposal? (Y/n): ")
