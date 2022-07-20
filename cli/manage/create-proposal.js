@@ -18,6 +18,7 @@ module.exports = async function (jwk, contract, contractState, contractId, arwea
     if (!propType) {
         return
     }
+    let totalPowers = Object.values(contractState.powers).reduce((pv, cv) => pv + cv, 0)
     let resultTx = await (({
         "call-contract": async () => {
             let contractAddress = await prompt("Enter address of contract you would want to call from multisig: ")
@@ -45,7 +46,7 @@ module.exports = async function (jwk, contract, contractState, contractId, arwea
             let memberAddress=await prompt("Enter address of member power of which you want to edit: ")
             console.log(chalk.blue(`Enter new power for this member. ${chalk.yellow(0)} will let him submit proposals, but not vote on it, ${chalk.yellow(-1)} will remove him from multisig, ${chalk.yellow(1)} and more is usual multisig membership, with submission and voting power.`))
             let newPower=parseFloat(await prompt("Enter new member power: "))
-            console.log("Confirm that you want to set voting power of " + chalk.blue(memberAddress) + " to " + chalk.yellow(newPower))
+            console.log("Confirm that you want to set voting power of " + chalk.blue(memberAddress) + " to " + chalk.yellow(newPower))+" (or "+(chalk.green(((newPower/totalPowers)*100).toFixed(2)+"%")+" of voting power)")
             let confirm = await prompt("Are you sure? (Y/n): ")
             if (!confirm.toLowerCase().startsWith("y")) {
                 console.log(chalk.bgRed("Transaction rejected"))
@@ -61,7 +62,21 @@ module.exports = async function (jwk, contract, contractState, contractId, arwea
 
 
         },
-        "set-threshold": async() => "set-threshold"
+        "set-threshold": async() =>{
+            let newThreshold=parseFloat(await prompt(`Enter new threshold (current is ${chalk.green(contractState.threshold)}, total voting power of multisig is ${chalk.green(totalPowers)}): `))
+            console.log(`Confirm that you want to set threshold to ${chalk.green(newThreshold)} (${chalk.green(((newThreshold/totalPowers)*100).toFixed(2)+"%")} of voting power).`)
+            let confirm = await prompt("Are you sure? (Y/n): ")
+            if (!confirm.toLowerCase().startsWith("y")) {
+                console.log(chalk.bgRed("Transaction rejected"))
+
+                return null
+            }else{
+                return {
+                    function:"set-threshold",
+                    threshold:newThreshold
+                }
+            }
+        }
     })[propType])(jwk, contract, contractState, contractId, arweave, warp)
     if (!resultTx) {
         return
