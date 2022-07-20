@@ -10,7 +10,7 @@
   "bin": {
     "sw-multisig": "./cli.js"
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Multisig for SmartWeave using FCP",
   "main": "index.js",
   "repository": "https://github.com/angrymouse/sw-multisig.git",
