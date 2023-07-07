@@ -1,13 +1,13 @@
 const { build } = require('esbuild');
 const replace = require('replace-in-file');
-
+const path=require("path")
 const contracts = ['/contract.js'];
 
 build({
   entryPoints: contracts.map((source) => {
-    return `./src${source}`;
+    return path.join(__dirname,`/src${source}`);
   }),
-  outdir: './dist',
+  outdir: path.join(__dirname, `/dist`),
   minify: false,
   bundle: true,
   format: 'iife',
@@ -17,7 +17,7 @@ build({
   // update: it does since 0.4.31, but because viewblock.io is still incompatibile with this version, leaving as is for now.
   .finally(() => {
     const files = contracts.map((source) => {
-      return `./dist${source}`.replace('.ts', '.js');
+      return path.join(__dirname, `/dist`,source);
     });
     replace.sync({
       files: files,
